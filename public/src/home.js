@@ -1,4 +1,4 @@
-var oldFunction = require('./books');
+let oldFunction = require('./books');
 
 function totalBooksCount(books) {
   return books.length;
@@ -21,11 +21,11 @@ function getMostCommonGenres(books) {
     mostCom[book.genre] ? mostCom[book.genre]++ : mostCom[book.genre] = 1;
   }
 
-  for (let i = 0; i < Object.keys(mostCom).length; i++) {
-    final.push({ name: Object.keys(mostCom)[i], count: Object.values(mostCom)[i] });
+  for (let start = 0; start < Object.keys(mostCom).length; start++) {
+    final.push({ name: Object.keys(mostCom)[start], count: Object.values(mostCom)[start] });
   }
 
-  return final.sort((a, b) => a.count > b.count ? -1 : 1).slice(0, 5);
+  return final.sort((gen1, gen2) => gen1.count > gen2.count ? -1 : 1).slice(0, 5);
 
 }
 
@@ -33,35 +33,46 @@ function getMostPopularBooks(books) {
   let mostPop = [];
 
   for (book of books) {
-    var name = book.title;
-    var count = book.borrows.length;
+    let name = book.title;
+    let count = book.borrows.length;
     mostPop.push({ 'name': name, 'count': count});
   
 
   }
-  return mostPop.sort((a, b) => b.count - a.count).slice(0, 5);
+  return mostPop.sort((book1, book2) => book2.count - book1.count).slice(0, 5);
 }
 
+function getName(authors, id){
+let name = " ";
+authors.forEach((auth) => {
+  if (auth.id === id)
+    name = ${auth.name.first} ${auth.name.last};
+});
+return name;
+}
+
+function sortData(array) {
+  return array.sort((firstItem, secondItem) => {
+    if (firstItem.count < secondItem.count) return 1;
+    if (firstItem.count > secondItem.count) return -1;
+    return 0;
+  });
+}
 
 function getMostPopularAuthors(books, authors) {
-  const finalArr = [];
-  for (book of books) {
-   
-    let name = Object.values(oldFunction.findAuthorById(authors, book.authorId).name).join(' ');
-    let count = book.borrows.length;
-  
-    if (finalArr.filter(result => result.name).includes(name)) {
-      for (res of finalArr) {
-        if (name === finalArr.name) {
-          finalArr.count ++;
-        }
-      }
-    }
-    else {
-      finalArr.push({ 'name': name, 'count': count});
-    }   
+  let array = [];
+  let red = books.reduce((account, book) => {
+    account[book.authorId] ? (account[book.authorId] += book.borrows.length) : (account[book.authorId] = book.borrows.length);
+    return account;
+  }, {});
+  for (let key in red) {
+    let value = red[key];
+    let accObj = {};
+    accObj['name'] = getName(authors, parseInt(key));
+    accObj['count'] = value;
+    array.push(accObj);
   }
-  return (finalArr.sort((a, b) => b.count - a.count).slice(0, 5));
+  return sortData(array).slice(0, 5);
 }
 
 module.exports = {

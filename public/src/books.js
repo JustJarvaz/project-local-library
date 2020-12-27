@@ -17,17 +17,9 @@ function findBookById(books, id) {
 
 
 function partitionBooksByBorrowedStatus(books) {
-  const borrowed = [];
-    const returned = [];
-    for (book of books) {
-        if (book.borrows[0].returned) {
-            returned.push(book);
-        } else {
-            borrowed.push(book);
-        }
-
-    }
-    return [borrowed, returned]
+  const loaned = books.filter(book => book.borrows[0].returned === false)
+  const returned = books.filter(book => book.borrows[0].returned === true)
+  return [loaned, returned]
 }
 
 function getBorrowersForBook(book, accounts) {

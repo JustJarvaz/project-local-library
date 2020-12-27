@@ -25,14 +25,14 @@ function numberOfBorrows(account, books) {
 
 function getBooksPossessedByAccount(account, books, authors) {
   let bookArr = [];
-  for (let i = 0; i < books.length; i++) {
-    var book = books[i];
+  for (let eachBook = 0; eachBook < books.length; eachBook++) {
+    let book = books[eachBook];
     const {id, title, genre, borrows}=book;
-    for(let j = 0; j < borrows.length; j++) {
-      let borr = borrows[j]
+    for(let borrowed = 0; borrowed < borrows.length; borrowed++) {
+      let borr = borrows[borrowed]
       if(borr.id === account.id && borr.returned === false) {
-        for(let k = 0; k < authors.length; k++) {
-          let author = authors[k];
+        for(let acc = 0; acc < authors.length; acc++) {
+          let author = authors[acc];
           if(author.id === book.authorId){
             let finalObj = { id, title, genre, author, borrows};
             bookArr.push(finalObj);
