@@ -43,12 +43,12 @@ function getMostPopularBooks(books) {
 }
 
 function getName(authors, id){
-let name = " ";
-authors.forEach((auth) => {
-  if (auth.id === id)
-    name = ${auth.name.first} ${auth.name.last};
-});
-return name;
+  let authName = ' ';
+  authors.forEach((auth) => {
+    if (auth.id === id)
+      authName = `${auth.name.first} ${auth.name.last}`;
+  });
+  return authName;
 }
 
 function sortData(array) {
