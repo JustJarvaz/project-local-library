@@ -14,7 +14,7 @@ function booksBorrowedCount(books) {
   
 }
 
-function MostCommonGenres(books) { 
+function getMostCommonGenres(books) { 
   let mostCom = {};
   const final = [];
   for (let book of books) {
@@ -29,7 +29,7 @@ function MostCommonGenres(books) {
 
 }
 
-function MostPopularBooks(books) {
+function getMostPopularBooks(books) {
   let mostPop = [];
 
   for (book of books) {
@@ -59,7 +59,7 @@ function sortData(array) {
   });
 }
 
-function MostPopularAuthors(books, authors) {
+function getMostPopularAuthors(books, authors) {
   let array = [];
   let red = books.reduce((account, book) => {
     account[book.authorId] ? (account[book.authorId] += book.borrows.length) : (account[book.authorId] = book.borrows.length);
